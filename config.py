@@ -9,8 +9,10 @@ from openai import OpenAI
 load_dotenv(find_dotenv())
 
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+OPENAI_MODEL_NAME = os.getenv('OPENAI_MODEL_NAME')
 
 ERROR_MESSAGE = 'We are facing a technical issue at this moment.'
+DIALOGFLOW_LANGUAGE = 'en-US'
 
 COLLECTION_NAME = 'hr_knowledge'
 QDRANT_URL = 'http://localhost:6333'
@@ -24,7 +26,7 @@ embedding_function = OpenAIEmbeddings(
 chat_model = ChatOpenAI(
     temperature=0,
     openai_api_key=OPENAI_API_KEY,
-    model_name='gpt-3.5-turbo-1106'
+    model_name=OPENAI_MODEL_NAME
 )
 
 openai_client = OpenAI(

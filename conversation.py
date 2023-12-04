@@ -22,6 +22,15 @@ def format_chat_history(chat_history: list[list[str, str]]) -> str:
     return formated_chat_history
 
 
+def get_system_prompt() -> str:
+    system_prompt = '''Consider yourself as a helpful HR assistant and provide answers related to HR and HR policies. \
+Use the following pieces of CONTEXT and CHAT HISTORY to answer the QUESTION at the end. \
+Here are the different grade for the policies M-1, M-2, M-3, M-4, M-5, M-6, M-7.
+If you don't know the answer or the CONTEXT doesn't contain the answer polietly reply that you don't have the answer. \
+Keep an informative tone and ask a follow up question.'''
+    return system_prompt
+
+
 def condense_user_query(query: str, chat_history: list[list]) -> tuple:
     system_prompt = '''Given the following CHAT HISTORY and a FOLLOW UP QUESTION, \
 rephrase the FOLLOW UP QUESTION to be a STANDALONE QUESTION in its original language. \
@@ -52,11 +61,7 @@ def create_llm_conversation(chat_history: list) -> list[list]:
         query = chat_history[-1][0]
         vector_db = Qdrant(client=config.qdrant_client, embeddings=config.embedding_function,
                            collection_name=config.COLLECTION_NAME)
-        system_prompt = '''You are a helpful assistant. \
-Use the following pieces of CONTEXT and CHAT HISTORY to answer the QUESTION at the end. \
-Keep all you answers short and concise. \
-If you don't know the answer and the CONTEXT doesn't contain the answer truthfully say I don't know. \
-Keep an informative tone.'''
+        system_prompt = get_system_prompt()
         instruction = "CONTEXT: {context}\n\nCHAT HISTORY:\n\n{chat_history}\n\nHUMAN: {question}\n\nAI:"
         template = f'{system_prompt}\n{instruction}'
         prompt = ChatPromptTemplate.from_messages(
@@ -88,11 +93,7 @@ def create_llm_conversation_audio(chat_history: list) -> list[list]:
         query = chat_history[-1][0]
         vector_db = Qdrant(client=config.qdrant_client, embeddings=config.embedding_function,
                            collection_name=config.COLLECTION_NAME)
-        system_prompt = '''You are a helpful assistant. \
-Use the following pieces of CONTEXT and CHAT HISTORY to answer the QUESTION at the end. \
-Keep all you answers short and concise. \
-If you don't know the answer and the CONTEXT doesn't contain the answer truthfully say I don't know. \
-Keep an informative tone.'''
+        system_prompt = get_system_prompt()
         instruction = "CONTEXT: {context}\n\nCHAT HISTORY:\n\n{chat_history}\n\nHUMAN: {question}\n\nAI:"
         template = f'{system_prompt}\n{instruction}'
         prompt = ChatPromptTemplate.from_messages(
@@ -146,11 +147,7 @@ def create_llm_conversation_backend(chat_history: list[list], query: str) -> str
     try:
         vector_db = Qdrant(client=config.qdrant_client, embeddings=config.embedding_function,
                            collection_name=config.COLLECTION_NAME)
-        system_prompt = '''You are a helpful assistant. \
-Use the following pieces of CONTEXT and CHAT HISTORY to answer the QUESTION at the end. \
-Keep all you answers short and concise. \
-If you don't know the answer and the CONTEXT doesn't contain the answer truthfully say I don't know. \
-Keep an informative tone.'''
+        system_prompt = get_system_prompt()
         instruction = "CONTEXT: {context}\n\nCHAT HISTORY:\n\n{chat_history}\n\nHUMAN: {question}\n\nAI:"
         template = f'{system_prompt}\n{instruction}'
         prompt = ChatPromptTemplate.from_messages(
