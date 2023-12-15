@@ -15,7 +15,7 @@ ERROR_MESSAGE = 'We are facing a technical issue at this moment.'
 DIALOGFLOW_LANGUAGE = 'en-US'
 
 COLLECTION_NAME = 'hr_knowledge'
-QDRANT_URL = 'http://localhost:6333'
+QDRANT_URL = os.getenv('QDRANT_URL')
 
 qdrant_client = QdrantClient(url=QDRANT_URL)
 

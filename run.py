@@ -1,8 +1,5 @@
-import time
-
 import gradio as gr
 from fastapi import FastAPI, Request
-from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
 from gradio_ui import demo
@@ -15,19 +12,6 @@ app = FastAPI()
 class ValuesChatRequest(BaseModel):
     query: str
     session_id: str
-
-
-@app.middleware("http")
-async def authenticate_headers(request: Request, call_next):
-    start_time = time.time()
-    headers = request.headers
-    for k, v in headers.items():
-        if k == 'authentication':
-            print(v)
-    response = await call_next(request)
-    process_time = time.time() - start_time
-    print(process_time)
-    return response
 
 
 @app.get('/')
@@ -59,6 +43,6 @@ async def dialogflow_webhook(request: Request):
         f'No handler is set for the action - {action}.'
     ])
 
-    return JSONResponse(response_data)
+    return response_data
 
 app = gr.mount_gradio_app(app, demo, '/gradio')
