@@ -3,7 +3,7 @@ import gradio as gr
 from conversation import *
 
 with gr.Blocks() as text_chat:
-    chatbot = gr.Chatbot(label='Talk to the Douments', bubble_full_width=False)
+    chatbot = gr.Chatbot(label='HR Knowledge', bubble_full_width=False)
     msg = gr.Textbox(label='Query', placeholder='Enter text and press enter')
     text_chat_clear = gr.ClearButton([msg, chatbot], variant='stop')
 
