@@ -1,5 +1,6 @@
 import gradio as gr
 from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from gradio_ui import demo
@@ -7,6 +8,13 @@ from utils import format_dialogflow_response
 from conversation import create_llm_conversation_backend
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 class ValuesChatRequest(BaseModel):
