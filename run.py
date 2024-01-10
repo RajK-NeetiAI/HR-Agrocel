@@ -3,15 +3,15 @@ from fastapi import FastAPI, Request
 from pydantic import BaseModel
 
 from gradio_ui import demo
-from utils import format_dialogflow_response, detect_intent
-import config
+from utils import format_dialogflow_response
+from conversation import create_llm_conversation_backend
 
 app = FastAPI()
 
 
 class ValuesChatRequest(BaseModel):
     query: str
-    session_id: str
+    chat_history: list[list]
 
 
 @app.get('/')
@@ -25,8 +25,8 @@ def home():
 @app.post('/hr/chat')
 def values_chat(values_chat_request: ValuesChatRequest):
     query = values_chat_request.query
-    session_id = values_chat_request.session_id
-    response = detect_intent(session_id, query, config.DIALOGFLOW_LANGUAGE)
+    chat_history = values_chat_request.chat_history
+    response = create_llm_conversation_backend(chat_history, query)
     return {
         'status': 1,
         'response': response
