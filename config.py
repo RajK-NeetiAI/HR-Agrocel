@@ -17,6 +17,8 @@ DIALOGFLOW_LANGUAGE = 'en-US'
 COLLECTION_NAME = 'hr_knowledge'
 QDRANT_URL = os.getenv('QDRANT_URL')
 
+K = 10
+
 qdrant_client = QdrantClient(url=QDRANT_URL)
 
 embedding_function = OpenAIEmbeddings(
