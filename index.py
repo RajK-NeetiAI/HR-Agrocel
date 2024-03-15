@@ -15,15 +15,16 @@ def create_index(document_dir: str) -> str:
         )
         documents = loader.load()
         text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=1024,
-            chunk_overlap=16
+            chunk_size=2048,
+            chunk_overlap=32
         )
         texts = text_splitter.split_documents(documents)
         Qdrant.from_documents(
             texts,
             config.embedding_function,
             collection_name=config.COLLECTION_NAME,
-            url=config.QDRANT_URL
+            url=config.QDRANT_URL,
+            api_key=config.QDRANT_API_KEY
         )
         return 'Documents uploaded and index created successfully. You can chat now.'
     except Exception as e:

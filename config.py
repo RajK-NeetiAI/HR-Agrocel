@@ -16,10 +16,12 @@ DIALOGFLOW_LANGUAGE = 'en-US'
 
 COLLECTION_NAME = 'hr_knowledge'
 QDRANT_URL = os.getenv('QDRANT_URL')
+QDRANT_API_KEY = os.getenv('QDRANT_API_KEY')
 
 K = 10
 
-qdrant_client = QdrantClient(url=QDRANT_URL)
+qdrant_client = QdrantClient(
+    url=QDRANT_URL, https=True, api_key=QDRANT_API_KEY)
 
 embedding_function = OpenAIEmbeddings(
     openai_api_key=OPENAI_API_KEY
